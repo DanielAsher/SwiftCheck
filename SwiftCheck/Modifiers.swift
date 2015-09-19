@@ -482,3 +482,55 @@ private func inBounds<A : IntegerType where A.IntegerLiteralType == Int>(fi : (I
 		}
 	}
 }
+/// Generates a tuple  of two arbitrary values of types A and B.
+public struct TupleOf<A : Arbitrary, B: Arbitrary> : Arbitrary, CustomStringConvertible {
+	public let getTuple : (A,B)
+	
+	public init(_ tuple : (A,B)) {
+		self.getTuple = tuple
+	}
+	
+	public var description : String {
+		return "\(self.getTuple)"
+	}
+	
+	public static var arbitrary : Gen<TupleOf<A, B>> {
+		let tupleOf : A -> B -> TupleOf<A,B> = { a in { b in TupleOf((a,b)) } }
+		return tupleOf <^> A.arbitrary <*> B.arbitrary
+	}
+}
+
+/// Generates a tuple  of three arbitrary values of types A, B and C.
+public struct TupleOf3<A : Arbitrary, B: Arbitrary, C: Arbitrary> : Arbitrary, CustomStringConvertible {
+	public let getTuple : (A,B,C)
+	
+	public init(_ tuple : (A,B,C)) {
+		self.getTuple = tuple
+	}
+	
+	public var description : String {
+		return "\(self.getTuple)"
+	}
+	
+	public static var arbitrary : Gen<TupleOf3<A,B,C>> {
+		let tupleOf : A -> B -> C -> TupleOf3<A,B,C> = { a in { b in { c in TupleOf3((a,b,c)) } } }
+		return tupleOf <^> A.arbitrary <*> B.arbitrary <*> C.arbitrary
+	}
+}
+/// Generates a tuple of four arbitrary values of types A, B, C and D.
+public struct TupleOf4<A : Arbitrary, B: Arbitrary, C: Arbitrary, D: Arbitrary> : Arbitrary, CustomStringConvertible {
+	public let getTuple : (A,B,C,D)
+	
+	public init(_ tuple : (A,B,C,D)) {
+		self.getTuple = tuple
+	}
+	
+	public var description : String {
+		return "\(self.getTuple)"
+	}
+	
+	public static var arbitrary : Gen<TupleOf4<A,B,C,D>> {
+		let tupleOf : A -> B -> C -> D -> TupleOf4<A,B,C,D> = { a in { b in { c in { d in TupleOf4((a,b,c,d)) } } } }
+		return tupleOf <^> A.arbitrary <*> B.arbitrary <*> C.arbitrary <*> D.arbitrary
+	}
+}
